@@ -1,0 +1,12 @@
+{% load twitter_feed_tags %}
+
+<div class="tweets">
+  <ul>
+    {% for tweet in tweets %}
+      <li>
+        <p>{{ tweet.content|linkify_twitter_status|urlize|url_target_blank }}</p>
+        <p class="date">{{ tweet.published_at|date:"F d, Y" }}</p>
+      </li>
+    {% endfor %}
+  </ul>
+</div>

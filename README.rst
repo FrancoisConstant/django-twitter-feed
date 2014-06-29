@@ -18,16 +18,16 @@ Set-up:
 
 2.Add your twitter account API access in the settings like this:
 
-TWITTER_FEED_CONSUMER_PUBLIC_KEY = '...'
-TWITTER_FEED_CONSUMER_SECRET = '...'
-TWITTER_FEED_OPEN_AUTH_TOKEN = '...'
-TWITTER_FEED_OPEN_AUTH_SECRET = '...'
+    TWITTER_FEED_CONSUMER_PUBLIC_KEY = '...'
+    TWITTER_FEED_CONSUMER_SECRET = '...'
+    TWITTER_FEED_OPEN_AUTH_TOKEN = '...'
+    TWITTER_FEED_OPEN_AUTH_SECRET = '...'
 
 3. Run `python manage.py migrate` (if you use South) or `python manage.py syncdb`
 
 4. Run the following command lines to test your Twitter credentials and save the initial feeds:
-#. `python manage.py update_tweets`
-#. `python manage.py show_tweets`
+    python manage.py update_tweets
+    python manage.py show_tweets
 
 5.In a template, show the latest 10 tweets for example:
 

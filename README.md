@@ -6,6 +6,11 @@ Really simple app to show a Twitter feed in your Django application.
 It's using a a task to update the feed regularly.
 
 
+INSTALL:
+--------
+`pip install django-twitter-feed`
+
+
 Set-up:
 -------
 

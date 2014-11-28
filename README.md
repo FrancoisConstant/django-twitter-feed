@@ -56,3 +56,4 @@ For example:
 	</div>
 	
 7.Make sure `python manage.py update_tweets` is regurlalry called.
+

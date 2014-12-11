@@ -1,3 +1,5 @@
+import re
+
 from django import template
 from django.utils.safestring import mark_safe
 
@@ -6,6 +8,8 @@ from twitter_feed.models import Tweet
 
 register = template.Library()
 
+hashtag_pattern = re.compile(r"(?P<start>.?)#(?P<hashtag>[A-Za-z0-9_]+)(?P<end>.?)")
+username_pattern = re.compile(r"(?P<start>.?)@(?P<user>[A-Za-z0-9_]+)(?P<end>.?)")
 
 @register.inclusion_tag('twitter_feed/latest_tweets.html')
 def latest_tweets(limit=10):
@@ -18,21 +22,13 @@ def latest_tweets(limit=10):
 
 @register.filter
 def linkify_twitter_status(status):
-    import re
-
-    # find hashtags
-    pattern = re.compile(r"(?P<start>.?)#(?P<hashtag>[A-Za-z0-9_]+)(?P<end>.?)")
-
-    # replace with link to search
+    # Find hashtags, replace with link to search
     link = r'\g<start><a href="https://twitter.com/hashtag/\g<hashtag>" title="#\g<hashtag> search Twitter">#\g<hashtag></a>\g<end>'
-    text = pattern.sub(link, status)
+    text = hashtag_pattern.sub(link, status)
 
-    # find usernames
-    pattern = re.compile(r"(?P<start>.?)@(?P<user>[A-Za-z0-9_]+)(?P<end>.?)")
-
-    # replace with link to profile
+    # Find usernames, replace with link to profile
     link = r'\g<start><a href="http://twitter.com/\g<user>" title="#\g<user> on Twitter">@\g<user></a>\g<end>'
-    text = pattern.sub(link, text)
+    text = username_pattern.sub(link, text)
 
     return mark_safe(text)
 

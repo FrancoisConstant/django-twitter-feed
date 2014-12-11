@@ -24,14 +24,14 @@ def linkify_twitter_status(status):
     pattern = re.compile(r"(?P<start>.?)#(?P<hashtag>[A-Za-z0-9_]+)(?P<end>.?)")
 
     # replace with link to search
-    link = r'\g<start>#<a href="https://twitter.com/hashtag/\g<hashtag>" title="#\g<hashtag> search Twitter">\g<hashtag></a>\g<end>'
+    link = r'\g<start><a href="https://twitter.com/hashtag/\g<hashtag>" title="#\g<hashtag> search Twitter">#\g<hashtag></a>\g<end>'
     text = pattern.sub(link, status)
 
     # find usernames
     pattern = re.compile(r"(?P<start>.?)@(?P<user>[A-Za-z0-9_]+)(?P<end>.?)")
 
     # replace with link to profile
-    link = r'\g<start>@<a href="http://twitter.com/\g<user>" title="#\g<user> on Twitter">\g<user></a>\g<end>'
+    link = r'\g<start><a href="http://twitter.com/\g<user>" title="#\g<user> on Twitter">@\g<user></a>\g<end>'
     text = pattern.sub(link, text)
 
     return mark_safe(text)

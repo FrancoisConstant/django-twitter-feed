@@ -1,6 +1,0 @@
-include LICENSE
-include README.md
-recursive-include twitter_feed/management .py
-recursive-include twitter_feed/migrations .py
-recursive-include twitter_feed/templatetags .py
-recursive-include twitter_feed/templates *

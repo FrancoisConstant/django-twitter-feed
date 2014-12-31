@@ -1,0 +1,4 @@
+include LICENSE
+include README.md
+recursive-include twitter_feed *.py
+recursive-include twitter_feed/templates *

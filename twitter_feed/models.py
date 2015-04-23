@@ -18,6 +18,7 @@ class Tweet(models.Model):
     published_at = models.DateTimeField(u"Published At")
     updated_at = models.DateTimeField(u"Last Update", auto_now=True)
     created_at = models.DateTimeField(u"Date", auto_now_add=True)
+    id_str = models.CharField(max_length=100, null=True)
 
     objects = TweetManager()
 

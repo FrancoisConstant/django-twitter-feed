@@ -35,6 +35,7 @@ class ImportTweets:
         tweet = Tweet()
         tweet.published_at = status.created_at
         tweet.content = status.text
+        tweet.id_str = status.id_str
 
         return tweet
 

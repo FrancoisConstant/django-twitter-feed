@@ -55,4 +55,4 @@ For example:
     	{% endfor %}
 	</div>
 	
-7.Make sure `python manage.py update_tweets` is regurlalry called.
+7.Make sure `python manage.py update_tweets` is regularly called.

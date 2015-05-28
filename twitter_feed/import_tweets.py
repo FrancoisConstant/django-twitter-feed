@@ -38,15 +38,13 @@ class ImportTweets:
 
         return tweet
 
-    @transaction.commit_manually
+    @transaction.atomic
     def _replace_all_tweets(self, new_tweets):
         try:
-            with transaction.commit_manually():
+            with transaction.atomic():
                 Tweet.objects.remove_all()
 
                 for tweet in new_tweets:
                     tweet.save()
-
-                transaction.commit()
         except Exception:
             pass

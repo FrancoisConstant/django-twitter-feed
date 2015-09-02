@@ -8,7 +8,7 @@ from twitter_feed.models import Tweet
 
 register = template.Library()
 
-hashtag_pattern = re.compile(r"(?P<start>.?)#(?P<hashtag>[A-Za-z0-9_]+)(?P<end>.?)")
+hashtag_pattern = re.compile(r"(?P<start>^|[^0-9A-Z&/]+)#(?P<hashtag>[A-Za-z0-9_]+)(?P<end>.?)", re.UNICODE)
 username_pattern = re.compile(r"(?P<start>.?)@(?P<user>[A-Za-z0-9_]+)(?P<end>.?)")
 
 @register.inclusion_tag('twitter_feed/latest_tweets.html')
@@ -27,7 +27,7 @@ def linkify_twitter_status(status):
     text = hashtag_pattern.sub(link, status)
 
     # Find usernames, replace with link to profile
-    link = r'\g<start><a href="http://twitter.com/\g<user>" title="#\g<user> on Twitter">@\g<user></a>\g<end>'
+    link = r'\g<start><a href="http://twitter.com/\g<user>" title="@\g<user> on Twitter">@\g<user></a>\g<end>'
     text = username_pattern.sub(link, text)
 
     return mark_safe(text)

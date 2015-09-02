@@ -1,8 +1,8 @@
 import tweepy
 from django.conf import settings
 from django.db import transaction
-
 from twitter_feed.models import Tweet
+import pytz
 
 
 class ImportTweets:
@@ -33,20 +33,16 @@ class ImportTweets:
         Fields documentation: https://dev.twitter.com/docs/api/1.1/get/statuses/home_timeline
         """
         tweet = Tweet()
-        tweet.published_at = status.created_at
+        #tweet.published_at = status.created_at
+        tweet.published_at = pytz.timezone("UTC").localize(status.created_at, is_dst=True)
         tweet.content = status.text
 
         return tweet
 
-    @transaction.commit_manually
     def _replace_all_tweets(self, new_tweets):
         try:
-            with transaction.commit_manually():
-                Tweet.objects.remove_all()
-
-                for tweet in new_tweets:
-                    tweet.save()
-
-                transaction.commit()
+            Tweet.objects.remove_all()
+            for tweet in new_tweets:
+                tweet.save()
         except Exception:
             pass

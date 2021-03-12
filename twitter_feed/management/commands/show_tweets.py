@@ -8,6 +8,6 @@ class Command(BaseCommand):
 
     def handle(self, *args, **options):
         for tweet in Tweet.objects.all():
-            print "*************************"
-            print tweet.published_at
-            print tweet.content
+            print ("*************************")
+            print (tweet.published_at)
+            print (tweet.content)

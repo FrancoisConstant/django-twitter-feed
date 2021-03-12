@@ -8,10 +8,10 @@ from twitter_feed.models import Tweet
 class ImportTweets:
 
     def __init__(self):
-        self.consumer_key = settings.TWITTER_FEED_CONSUMER_PUBLIC_KEY
-        self.consumer_secret = settings.TWITTER_FEED_CONSUMER_SECRET
-        self.o_auth_token = settings.TWITTER_FEED_OPEN_AUTH_TOKEN
-        self.o_auth_secret = settings.TWITTER_FEED_OPEN_AUTH_SECRET
+        self.consumer_key = getattr(settings, "TWITTER_FEED_CONSUMER_PUBLIC_KEY", {})
+        self.consumer_secret = getattr(settings, "TWITTER_FEED_CONSUMER_SECRET", {})
+        self.o_auth_token = getattr(settings, "TWITTER_FEED_OPEN_AUTH_TOKEN", {})
+        self.o_auth_secret = getattr(settings, "TWITTER_FEED_OPEN_AUTH_SECRET", {})
 
     def update_tweets(self):
         raw_tweets = self._get_latest_tweets_from_api()
@@ -38,15 +38,8 @@ class ImportTweets:
 
         return tweet
 
-    @transaction.commit_manually
+    @transaction.atomic
     def _replace_all_tweets(self, new_tweets):
-        try:
-            with transaction.commit_manually():
-                Tweet.objects.remove_all()
-
-                for tweet in new_tweets:
-                    tweet.save()
-
-                transaction.commit()
-        except Exception:
-            pass
+        Tweet.objects.remove_all()
+        for tweet in new_tweets:
+            tweet.save()
